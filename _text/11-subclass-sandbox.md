@@ -1,22 +1,20 @@
-# 11. Subclass Sandbox
+# 11. Подкласс-песочница (Subclass Sandbox)
 
-You have similar objects but they have different behavior. Create those behaviors in the child class by combining methods defined in the parent class.
+Допустим, у вас есть похожие объекты, но они обладают разным поведением. Создайте эти поведения в дочернем классе, комбинируя методы, определённые в родительском классе.
 
-**How to implement?**
+**Как это реализовать?**
 
-Define several protected methods in the parent class and how they are implemented. In the child class, you call the methods you need to get the behavior you want.
+Определите в родительском классе несколько защищённых (`protected`) методов и реализуйте их. В дочернем классе вызывайте те методы, которые нужны вам для получения желаемого поведения.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- When your child classes share behavior and the parent class can provide these behaviors. For example if you are using superpowers and the child class can combine these superpowers. This is an example from the book so you can find the code in the code section.  
+- Когда ваши дочерние классы используют общее поведение, и родительский класс может предоставить это поведение. Например, если вы используете суперспособности, и дочерний класс может комбинировать эти суперспособности. Это пример из книги, так что вы можете найти код в исходниках.
 
-**Related patterns**
+**Связанные паттерны**
 
-- **Update Method.** The Update Method is often implemented as a Sandbox method.
-
-- **Type Object.** Instead of defining all methods in the parent you could give the child a reference to an object that defines these methods.  
-
-- **Template.** Here you override the methods in the parent class.
+- **Метод обновления (Update Method).** «Метод обновления» часто реализуется как метод-песочница (то есть как раз в стиле «Подкласса-песочницы»).
+- **Объект-тип (Type Object).** Вместо того чтобы определять все методы в родительском классе, вы можете дать дочернему классу ссылку на объект, который и будет определять эти методы.
+- **Шаблон (Template).** Здесь вы переопределяете (`override`) методы в родительском классе.
 
 
-## [Back](../)
+## [Назад](../)
