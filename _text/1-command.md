@@ -1,34 +1,26 @@
-# 1. Command
+# 1. Команда (Command)
 
-In you game you have many commands, such as play sound, throw cake, etc. It can be useful to wrap them in a command object. Now the command object doesn't have to care about how the command is executed. 
+В вашей игре есть много разных действий: проиграть звук, кинуть предмет и так далее. Иногда полезно "обернуть" каждое из них в отдельный объект — команду. И тогда этому объекту будет всё равно, *как именно* выполняется действие. Он просто знает, что его можно выполнить.
 
-**How to implement?**
+**Как это реализовать?**
 
-You have a base class called Command which has a method that a child can implement called Execute. In each child class, you put in the Execute method what will actually happen when you run (execute) that command.  
+Создаётся базовый класс, например `Command`, в котором объявлен метод `Execute()`. В каждом классе-наследнике этот метод реализуется по-своему — внутри прописывается, что именно произойдёт при выполнении данной команды.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- To rebind keys. Example of this is available in the code section. 
+- **Для переназначения клавиш (rebind keys).** Пример есть в разделе с кодом. Вместо жёсткой привязки «нажал А → сделай Б» вы создаёте команды и привязываете их к кнопкам. Потом можно легко поменять клавишу для команды или даже назначить несколько клавиш на одну команду.
+- **Для создания системы повторов (replay system).** Пока игрок играет, вы сохраняете в какой-то структуре данных, какая кнопка была нажата в каждом кадре. Когда нужно воспроизвести записанный фрагмент, вы просто проходите по списку сохранённых команд и выполняете их одну за другой, как если бы игра снова шла в реальном времени. Пример есть в коде.
+- **Для системы отмены и повтора действий (undo / redo).** Похоже на систему повторов, но к каждой команде добавляется ещё метод `Undo()`, который делает *обратное* действие. Например, команда «бросить предмет» добавляет предмет в мир, а `Undo()` его убирает. Так можно откатить действие и вернуться к предыдущему состоянию. Пример есть в коде.
+- **Для описания поведения и действий ИИ.** Каждое действие противника (атака, отступление, поиск укрытия) можно оформить как отдельную команду. Это упрощает управление ИИ и позволяет легко менять его поведение во время игры.
+- **Для создания последовательностей действий в событиях или кат-сценах.** Например, в кат-сцене: «подойти к столу → взять предмет → повернуться к игроку → сказать фразу». Каждый шаг — команда, и их легко выстраивать в цепочку.
+- **Для управления способностями, усилениями и эффектами.** Когда игрок активирует способность, создаётся объект-команда, который применяет эффект. Это удобно, потому что способности можно динамически добавлять, убирать или заменять.
+- **Для обработки событий.** Каждое событие (вход в зону, получение урона, подбор предмета) оборачивается в команду, которая выполняется при наступлении события. Так логика событий не "размазывается" по коду, а собирается в одном месте.
+- **Для упрощения сетевой передачи в многопользовательских играх.** Команду можно сериализовать (превратить в набор байтов), отправить по сети другим игрокам и выполнить у них — так синхронизируются действия всех игроков в реальном времени.
 
-- To make a replay system. When you play the game, you store in some data structure which button you pressed each update. When you want to replay what has happened, you just iterate through each command while running the game. Example of this is available in the code section. 
+**Связанные шаблоны (паттерны)**
 
-- To make an undo and redo system. Is similar to the replay system, but in each command you also have a method called Undo() where you do the opposite of what the command is doing. Example of this is available in the code section.
-
-- To encapsulate AI behaviors and actions. Each AI behavior can be represented as a command, making it easier to control and update AI actions during gameplay.
-
-- To define the sequence of actions to be executed during events or cutscenes in games.
-
-- To manage and apply different abilities, power-ups, or effects during gameplay.
-
-- To manage event handling by encapsulating event-specific actions as commands and executing them when the corresponding events occur.
-
-- To simplify network communication In multiplayer games. Game commands can be serialized and sent over the network to synchronize actions among different players.
-
-**Related patterns**
-
-- **Subclass Sandbox.** You may end up with many child-command-classes. To easier handle the code, you can define high-level methods in the parent.
-
-- **Memento.** With this pattern you can also return to a previous state.
+- **Подкласс песочница (Subclass Sandbox).** Когда у вас появляется очень много классов-команд, в родительском классе можно определить высокоуровневые вспомогательные методы (например, `PlaySound()`, `SpawnEffect()`, `DamageTarget()`). Тогда в дочерних командах останется только скомбинировать их, а дублирующий код уйдёт в родителя.
+- **Хранитель (Memento).** С помощью этого шаблона вы тоже можете возвращаться к предыдущему состоянию. В отличие от Undo через команды, Memento сохраняет состояние целиком (как снимок), а не отдельные действия. Их можно использовать вместе для более гибкой системы отмены.
 
 
-## [Back](../)
+## [Назад](../)
