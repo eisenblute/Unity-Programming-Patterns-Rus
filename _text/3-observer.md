@@ -1,31 +1,28 @@
-# 3. Observer
+# 3. Наблюдатель (Observer)
 
-Many things are constantly happening in your game. These things are called events (or messages). The difference between event and message is that an event has happened while a message is something that will happen. So this pattern is all about what will happen after an event has happened. Which methods should be called after you killed an enemy to update score, show death animation, etc? These methods should subscribe to the event. 
+В вашей игре постоянно происходит множество событий. Эти события называют ещё «сообщениями» (messages). Разница между событием и сообщением в том, что событие *уже произошло*, а сообщение — это то, что *только произойдёт* (например, команда). Так что паттерн «Наблюдатель» целиком про то, *что должно случиться после того, как событие произошло*. Какие методы нужно вызвать после того, как вы убили врага, чтобы обновить счёт, показать анимацию смерти и т.д.? Эти методы должны *подписаться* на событие.
 
-**How to implement?** 
+**Как это реализовать?**
 
-This pattern is so popular that C# has implemented it for you. Unity also has its own implementation. Your alternatives are:
+Этот паттерн настолько популярен, что в C# он уже встроен. В Unity тоже есть своя реализация. Варианты, которые вы можете использовать:
 
-- EventHandler
-- Action
-- UnityEvent
-- Your own implementation by using a delegate
+- `EventHandler`
+- `Action`
+- `UnityEvent`
+- Собственная реализация через делегат (`delegate`)
 
-I've implemented all these in the code, so if you don't understand the difference take a look there. 
+Я реализовал все эти варианты в коде, так что если вам непонятна разница — посмотрите примеры.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- This pattern is really useful if you want to avoid spaghetti code by making classes independent of each other, also known as decoupling. The best part of events is the part that's triggering the event doesn't care which methods are attached to the event. There might be zero methods. So if an event is triggered but nothing is happening you can easier find where the bug might be.
+- Этот паттерн очень полезен, если вы хотите избежать *спагетти-кода*, сделав классы независимыми друг от друга (это называется *разъединение*, или decoupling). Самое замечательное в событиях то, что той части кода, которая *вызывает* событие (генератор события), совершенно не важно, какие методы на него подписаны. Их может и не быть. Так что если событие сработало, а ничего не произошло, вам будет проще искать причину.
+- Если вы хотите по-настоящему разъединенить код, всё равно остаётся одна проблема: чтобы подписаться на событие, вам нужна ссылка на тот скрипт, где это событие объявлено. Другой подход — создать *Менеджер событий (Event Manager)* — глобальный класс, который берёт на себя обработку всех событий. У Unity есть собственный туториал на эту тему: «Creating a Simple Messaging System» (Создание простой системы сообщений).
+- Ещё один способ разъединенить код — сделать событие *статическим (static)*. Пример статического события тоже есть в исходниках.
 
-- If you really want to decouple your code, then you still have a problem. To subscribe to the event you need a reference to the script where the event is defined. Another way is to create an Event Manager, which is a global class that takes care of all events. Unity has its own tutorial on how to implement that: [Creating a Simple Messaging System](https://www.youtube.com/watch?v=0AqG1fDhPT8).
+**Связанные паттерны**
 
-- Another way to decouple the code is to make the event static. An example of a static event is available in the code.  
-
-**Related patterns**
-
-- **Event Queue.** The biggest problem with Observer is that it will trigger all methods subscribing to the event. If five methods subscribe, then five methods will be triggered. But what if 10 enemies are killed at the same time? Then 50 methods will be triggered and it can freeze the game. This is when you should use the Event Queue, which is basically the same as the Observer, but you put the events in a queue and you trigger as many as you can each Update without freezing the game.
-
-- **Model-View-Controller (MVC).** The MVC is an architectural pattern, and to implement it you can use the Observer pattern. 
+- **Очередь событий (Event Queue).** Самая большая проблема «Наблюдателя» в том, что он вызывает *все* методы, подписанные на событие, мгновенно. Если подписано пять методов — вызовутся все пять. А что, если 10 врагов будут убиты одновременно? Тогда вызовется 50 методов, и это может *заморозить* игру. Вот тут-то и становится полезной «Очередь событий». Это почти то же самое, что «Наблюдатель», но события складываются в очередь, и вы обрабатываете из неё столько событий за кадр, сколько можете, не вызывая зависаний.
+- **Модель-Представление-Контроллер (Model-View-Controller (MVC)).** Это архитектурный паттерн, и для его реализации как раз можно использовать паттерн «Наблюдатель».
 
 
-## [Back](../)  
+## [Назад](../)  
