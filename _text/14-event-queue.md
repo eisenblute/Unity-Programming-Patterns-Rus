@@ -1,28 +1,23 @@
-# 14. Event Queue
+# 14. Очередь событий (Event Queue)
 
-You have some events but you can wait until later to process each event. This may be useful if you have many events that may be activated at the same time which will freeze the game because this pattern will spread them out over some time period. 
+У вас есть события, но с обработкой каждого из них можно не спешить. Это полезно в тех случаях, когда множество событий активируются одновременно, что может сильно затормозить игру, — данный паттерн позволяет распределить их обработку по времени.
 
-**How to implement?**
+**Как это реализовать?**
 
-Combine the Command pattern with C#'s built-in queue, which is why this pattern is sometimes known as a **Command Queue**. In the Update method you pick the first Command in the queue and run it while measuring time. To measure time you can use System.Diagnostics.Stopwatch. If you have time to spare, you run the next Command, and so on until you are out of time. How much time you can spend on the Event Queue each update depends on the game, so you have to experiment.
+Соедините паттерн «Команда» (Command) со встроенной в C# очередью (`Queue`). Именно поэтому этот паттерн иногда называют **«Очередь команд» (Command Queue)**. В методе `Update` вы берёте первую команду из очереди и выполняете её, замеряя время. Для замера времени можно использовать `System.Diagnostics.Stopwatch`. Если время ещё осталось, вы выполняете следующую команду и так далее, пока не выйдете за отведённый лимит. Сколько времени можно тратить на «Очередь событий» в каждом кадре — зависит от конкретной игры, так что тут придётся экспериментировать.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- When you after an event will load an asset. This may take time, so if you want to play a sound when clicking a button, the game may freeze because it has to load the sound. A better way is to play the sound some frames after the click.     
+- **Когда после события нужно загрузить ассет (ресурс).** Это может занять время. Если вы хотите проиграть звук при нажатии на кнопку, игра может зависнуть, потому что ей придётся загружать этот звук. Лучше проиграть звук спустя несколько кадров после нажатия.
+- **Когда после события нужно проиграть звуковой эффект.** Что, если 100 врагов умирают одновременно, и при смерти каждого врага проигрывается звук смерти? Тогда 100 звуков попытаются проиграться одновременно. Если поместить события в очередь, вы можете проверять, играет ли уже какой-то звук, и игнорировать событие. Вы также можете объединять одинаковые события, оставляя в очереди только по одному событию каждого типа.
+- **Если вы делаете стратегию**, можно поместить в очередь приказы, которые игрок хочет отдавать определённому юниту: 1) построить стену, 2) собрать еду, 3) атаковать существо. Теперь игроку не нужно ждать, пока юнит закончит одно задание, чтобы дать следующее. Вы также можете помещать в очередь путевые точки (waypoints), чтобы заставить юнита патрулировать между ними. ИИ тоже может помещать команды в очередь, чтобы определить, какие юниты должны атаковать.
+- **При создании системы диалогов / речи.** У каждого персонажа есть своя очередь с аудиофразами, которые он должен произносить. Чтобы определить, какой персонаж должен говорить сейчас, можно пройтись по всем очередям. Если игрок нажимает Escape, потому что не хочет слушать болтовню, вы просто очищаете все очереди.
+- В [этом видео про Quake 3](https://www.youtube.com/watch?v=NeLkxuzCssA), похоже, что Джон Кармак решил поместить *все* события в одну очередь. После чего, он мог записывать все события, добавив журнал событий (event journal). И если возникала ошибка, он мог точно выяснить, что происходило вплоть до момента ошибки, просто заглянув в этот журнал.
 
-- When you after an event will play a sound effect. What if 100 enemies die at the same time and each time an enemy dies you play a death-sound. Now 100 sounds will play at the same time. If you put the events in a queue, you can check if a sound is already playing and then ignore the event. You can also merge the events that are the same, so you have only one of each event type in the queue.   
+**Связанные паттерны**
 
-- If you are making a strategy game, you can put orders in the queue that the player wants a certain unit to do: 1. build wall, 2. collect food, 3. attack creature. Now the player doesn't have to wait for a unit to finish one task. You can also put waypoints in the queue to make a unit patrol between waypoints. The AI can also put commands in a queue to for example determine which units should attack.  
-
-- When making a speech system. Each character has its own queue with audio it wants to say. To know which character should speak, you can go through all queues. If the player presses Escape because the player doesn't want to listen to the talk, you simply clear all queues.
-
-- I was watching [this video on Quake 3](https://www.youtube.com/watch?v=NeLkxuzCssA). Apparently John Carmack decided to put all events into a single queue. Now he could record all events by adding an event journal. If a bug happened he could find out exactly what had happened up until the bug by looking in the event journal.  
-
-**Related patterns** 
-
-- **Event Bus.** Similar to Event Queue but there's no delay.
-
-- **Observer.** You use the Observer pattern to implement the Event Queue.
+- **Шина событий (Event Bus).** Похоже на «Очередь событий», но без задержки.
+- **Наблюдатель (Observer).** Паттерн «Наблюдатель» используется для реализации «Очереди событий».
 
 
-## [Back](../)
+## [Назад](../)
