@@ -1,38 +1,31 @@
-# 5. Singleton
+# 5. Синглтон (Singleton)
 
-In your game you might have a class that saves the game for you. It's really important that you have just one instance of this class or you might save different versions of the game if each instance includes different data. It should also be easy to access this save game class from where you need it. You can use the Singleton pattern to accomplish this. 
+В вашей игре может быть класс, который сохраняет игровой процесс. Очень важно, чтобы у этого класса был *только один экземпляр (объект)*, иначе, если каждый экземпляр будет содержать разные данные, вы можете получить несколько разных версий сохранённой игры. Плюс к этому, обращение к данному классу сохранения должно быть легодоступным оттуда, где он вам нужен. Для всего этого можно использовать паттерн «Синглтон».
 
-**How to implement?**
+**Как это реализовать?**
 
-In C#. Make the instance static and provide a public static means of getting the reference to the single created instance. If the instance hasn't been created yet, create it. The constructor should be private and have no parameters. You can find this implemented in the code section.
+*На чистом C# (без MonoBehaviour).* Сделайте экземпляр статическим (static) и предоставьте публичный статический способ получить ссылку на этот единственный созданный экземпляр. Если экземпляр ещё не создан — создайте его. Конструктор должен быть закрытым (private) и не принимать параметров. Вы можете найти реализацию в исходниках.
 
-If your Singleton has to be thread safe, things will get more complicated. This is a good tutorial on the topic of more advanced Singleton patterns: [Implementing the Singleton Pattern in C#](https://csharpindepth.com/articles/singleton).
+Если ваш «Синглтон» должен быть потокобезопасным (thread safe), всё становится сложнее. Вот хороший урок на эту тему: [Implementing the Singleton Pattern in C#](https://csharpindepth.com/articles/singleton).
 
-In C# but the class also inherits from MonoBehaviour. If you want the Singleton to also inherit from MonoBehaviour (because you need some of that functionality) things will get more complicated. The problem now is that you can accidentally add several Singletons to the project. So you have to make sure you destroy all except one of the objects. Neither can you use a constructor, because MonoBehaviour doesn't allow it, so you have to implement your own constructor. You can find this implemented in the code section.    
+*На C#, если класс наследуется от MonoBehaviour.* Если вы хотите, чтобы «Синглтон» ещё и наследовался от `MonoBehaviour` (потому что вам нужна какая-то функциональность из Unity), ситуация тоже усложняется. Проблема в том, что вы можете случайно добавить в проект несколько экземпляров такого синглтона. Поэтому нужно убедиться, что вы уничтожаете все объекты, кроме одного. Конструктор вы тоже использовать не можете — `MonoBehaviour` этого не позволяет, так что придётся реализовать свой собственный метод для «конструирования». Реализацию такого варианта вы тоже найдёте в исходниках.
 
-**When is it not useful?**
+**Когда этот паттерн \*не\* полезен?**
 
-- According to the book "Game Programming Patterns," you should avoid this pattern because global objects can cause trouble. If you need to use this pattern, then it should be for manager classes, such as GameController, SaveGame, etc. The fewer Singletons the better!
+- Согласно книге «Шаблоны игрового программирования», этого паттерна стоит избегать, потому что глобальные объекты могут вызывать проблемы. Если вам всё же нужно его использовать, то используйте только для классов-менеджеров — например, `GameController`, `SaveGame` и т.п. Чем меньше синглтонов — тем лучше!
+- Если вы используете версию с `MonoBehaviour`, есть проблема: когда вы выходите из игры и пытаетесь обратиться к синглтону из метода `OnDestroy` другого объекта, к этому моменту синглтон может быть уже уничтожен.
 
-- If you use the MonoBehaviour version, a problem is that if you call the Singleton object from another object's OnDestroy method when you quit the game, the Singleton might have already been destroyed.  
+**Какие есть альтернативы?**
 
-**What are some alternatives?**
+Обычно «Синглтон» используется, потому что вам нужен *лёгкий доступ* к определённому скрипту. Но если синглтоны такие плохие, что можно использовать вместо них? Вот некоторые варианты:
 
-You tend to use the Singleton pattern because you want an easy access to that script. But if Singletons are so bad, what are some alternatives?
-
-- **No class at all.** Most Singeltons are helpers, and in many cases you can remove the manager and put the help-code in the class the manager manages.
-
-- **Static class.** This is basically the Service Locator pattern. 
-
-- **Unity's built-in Find() and SendMessage().** But these are so slow they should be avoided. If you have to use them, use them only once to get a reference to the script in the Start method. 
-
-- **Assign references to pre-existing objects.** This means dragging the object (on which the script that used to be a Singleton is attached) to public variables exposed in the Editor. The problem now is that this may become very complicated, and if you change a reference you often have to again drag them to wherever it's needed, which may be many locations if you have many objects. 
-
-- **A global event system.** This is the Observer pattern. You still need a Singleton for this global system, but you can remove all other Singletons.
-
-- **Dependency Injection.** You inject the reference to the object (that used to be a Singleton) in for example the constructor belonging to the class that need a reference to that object. There's also [Dependency Injection frameworks](https://www.youtube.com/watch?v=6tn8pMQuxEk) to make this process easier.
-
-- **One Singleton.** Have just one Singleton class and all managers that used to be Singletons are collected in this class. If you need the SaveGame object, you type GameController.Instance.getSaveGameManager(). 
+- **Вообще без отдельного класса.** Большинство синглтонов — это вспомогательные классы (хелперы). Во многих случаях вы можете удалить менеджер и поместить вспомогательный код прямо в тот класс, которым менеджер управлял.
+- **Статический класс.** Это, по сути, паттерн «Поиск службы» (Service Locator).
+- **Встроенные методы Unity: `Find()` и `SendMessage()`.** Но они настолько медленные, что их стоит избегать. Если вы вынуждены их использовать, делайте это только один раз — в методе `Start`, чтобы получить ссылку на скрипт.
+- **Назначение ссылок на уже существующие объекты вручную.** Перетаскивайте объект (на который повешен скрипт, раньше бывший синглтоном) в публичные переменные в редакторе Unity. Проблема в том, что это может стать очень запутанным, и если вы измените одну ссылку, вам придётся перетаскивать её заново во все места, где она нужна, — а таких мест может быть очень много.
+- **Глобальная система событий.** Это паттерн «Наблюдатель» (Observer). Для самой глобальной системы всё равно понадобится один синглтон, но все остальные синглтоны можно будет удалить.
+- **Внедрение зависимостей (Dependency Injection).** Вы внедряете ссылку на объект (который раньше был синглтоном), например, в конструктор класса, которому нужна эта ссылка. Существуют также [фреймворки для внедрения зависимостей](https://www.youtube.com/watch?v=6tn8pMQuxEk), упрощающие этот процесс.
+- **Один-единственный синглтон.** Создайте всего один класс-синглтон, и соберите в нём всех менеджеров, которые раньше были синглтонами. Если вам понадобится объект `SaveGame`, вы напишете: `GameController.Instance.getSaveGameManager()`.
 
 
-## [Back](../) 
+## [Назад](../) 
