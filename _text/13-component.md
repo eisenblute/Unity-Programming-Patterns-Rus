@@ -1,20 +1,19 @@
-# 13. Component
+# 13. Компонент (Component)
 
-When making a big game you should start thinking in components. A component is similar to your computer mouse, which you can attach to whatever computer you want through a USB port and it works fine. So a component is an object that's independent of other objects, making it reusable, and you can attach the component to several other objects if you want those objects to get the behavior described by the component. But in reality, some components have to communicate with each other, so they can't be entirely independent of each other: The mouse is communicating with the computer, but it's not communicating with the printer.   
+Когда вы делаете большую игру, вам стоит начать мыслить в терминах компонентов. Компонент похож на компьютерную мышь: вы можете подключить её к любому компьютеру через USB-порт, и она будет отлично работать. То есть компонент — это объект, независимый от других объектов, что делает его *переиспользуемым*. Вы можете присоединить компонент к нескольким объектам, если хотите, чтобы эти объекты получили поведение, описываемое компонентом. Однако, в реальности некоторые компоненты вынуждены общаться друг с другом, так что полностью независимыми быть не могут: мышь сообщается с компьютером, но она не сообщается с принтером.
 
-**How to implement?**
+**Как это реализовать?**
 
-In Unity you can attach components to GameObjects, such as colliders, mesh renderers, your own scripts, so it's already built-in. It's up to you to make the custom scripts you attach as reusable as possible.
+В Unity вы можете присоединять компоненты к игровым объектам — например, коллайдеры, меш-рендереры, ваши собственные скрипты. Так что этот паттерн уже встроен в Unity. Ваша задача — сделать так, чтобы ваши собственные скрипты-компоненты были максимально переиспользуемыми.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- Because Unity's FPS counter is not to be trusted, you can have a custom FPS counter that you re-use throughout all projects. Just add the script to the project and attach it to some GameObject and it works fine independently of everything else going on in the game.
+- Поскольку встроенный в Unity счётчик FPS не всегда точен, вы можете сделать свой собственный счётчик FPS и переиспользовать его во всех проектах. Просто добавьте скрипт в проект, прикрепите его к какому-нибудь игровому объекту — и он будет отлично работать независимо от всего остального, что происходит в игре.
+- Когда вы делаете гоночную игру, вы можете вынести физику в отдельный скрипт, потому что физика всегда влияет на машину, и расчёты физики одинаковы для всех машин. Однако, этот компонент не будет полностью независимым — ему понадобятся некоторые данные от машины (например, текущая скорость), но, как уже говорилось ранее, это нормально.
 
-- When making a car game you can put physics in one script, such as drag and rolling resistance, becuse physics will always affect the car and the physics calculations are the same for all cars. This component will not be completely independent because it will need some data from the car, such as current speed, but as said before that's fine. 
+**Связанные паттерны**
 
-**Related patterns**  
-
-- **Type Object.** The difference is that the Component is not always coupled with something else on the game object – it’s living its own life. In Unity you can add colliders, scripts, mesh renderers and they don’t need to know about each other to function. Type Object, however, is about adding a behavior to an existing class, so the type can't live on its own.
+- **Объект-тип (Type Object).** Разница в том, что «Компонент» не всегда привязан к чему-то ещё на игровом объекте — он живёт своей собственной жизнью. В Unity вы можете добавлять коллайдеры, скрипты, меш-рендереры, и им не нужно знать друг о друге, чтобы функционировать. «Объект-тип», напротив, предназначен для добавления поведения к уже существующему классу, поэтому тип не может существовать сам по себе.
 
 
-## [Back](../)
+## [Назад](../)
