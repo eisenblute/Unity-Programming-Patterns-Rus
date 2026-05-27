@@ -1,22 +1,18 @@
-# 10. Bytecode
+# 10. Байткод (Bytecode)
 
-What if other people want to help you with your game, but these people have no coding skillz. A solution is to invent a simpler programming language everyone can learn, and then you integrate it with your game. 
+А что, если другие люди хотят помочь вам с вашей игрой, но у этих людей нет навыков программирования? Решение — придумать более простой язык программирования, который каждый сможет освоить, а затем встроить его в вашу игру.
 
-**How to implement?**
+**Как это реализовать?**
 
-The programmers with no skillz write their code in a .txt-file. You read that file, loop through each row, and then use a switch statement to translate the code from your programming language to C#.
+«Программисты без навыков» пишут свой код в `.txt`-файле. Вы читаете этот файл, проходите по каждой строке в цикле и с помощью оператора `switch` переводите код с вашего языка программирования на C#.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- To add modding support.
-
-- To avoid hard-coded behaviour.
-
-- To handle cutscenes and dialogue systems. Scripted sequences or dialogue interactions can be expressed in bytecode, allowing for easier management and execution of these sequences during gameplay.
-
-- To manage and execute the conditions and actions required to unlock achievements or track player progress.
-
-- I was watching [this video on Quake 3](https://www.youtube.com/watch?v=NeLkxuzCssA). Apparently John Carmack decided to use the Bytecode pattern to isolate the game logic from the engine. If people can't access the game engine how they want, they can't hack it to cheat!
+- **Для поддержки модификаций (моддинг, modding).** Игроки смогут создавать свои моды, не изучая сложный код игры.
+- **Чтобы избежать жёстко прописанного поведения.** Вы можете менять логику игры без перекомпиляции всего проекта.
+- **Для управления кат-сценами и системами диалогов.** Сценарные последовательности или диалоговые взаимодействия можно описывать в байткоде, что упрощает их изменение и выполнение прямо во время игры.
+- **Для управления условиями и действиями, необходимыми для открытия достижений или отслеживания прогресса игрока.**
+- В [этом видео про Quake 3](https://www.youtube.com/watch?v=NeLkxuzCssA) похоже, что Джон Кармак решил использовать паттерн «Байткод», чтобы изолировать игровую логику от движка. Если люди не могут получить доступ к движку игры так, как им хочется, они не смогут взломать его для читерства!
 
 
-## [Back](../) 
+## [Назад](../) 
