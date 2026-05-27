@@ -1,26 +1,22 @@
-# 2. Flyweight
+# 2. Приспособленец (Flyweight)
 
-Even though a single object uses little memory – using many of them can cause trouble, so you need to make the objects lighter by sharing code.
+Даже если один объект потребляет немного памяти, их большое количество может стать проблемой. Поэтому нужно сделать объекты «легче» путём *разделения* общего кода и данных между собой.
 
-**How to implement?** 
+**Как это реализовать?**
 
-Separate the data that’s not specific to a single instance of that object and can be shared across all of them. You can do that by creating a new class and put the shared data in it. Then each object that should share data gets a reference to a single instance of that "storage" class.
+Нужно отделить те данные, которые не относятся к конкретному экземпляру объекта, и которые можно разделить между всеми экземплярами. Для этого создаётся отдельный класс, в который помещаются эти общие данные. Затем каждый объект, который должен их использовать, получает ссылку на один-единственный экземпляр этого класса-«хранилища».
 
-**When is it useful?**
+**Когда это полезно?**
 
-- If you make Minecraft and have a million cubes in the scene. All cubes can share the same texture if you put all textures that belongs to each cube type (grass, stone, sand, etc) into a [texture atlas](https://en.wikipedia.org/wiki/Texture_atlas).
+- **Если вы делаете игру наподобие Minecraft** и у вас на сцене миллион кубов (блоков). Все кубы могут использовать одни и те же текстуры, если вы соберёте все текстуры для каждого типа кубов (трава, камень, песок и т.д.) в один *текстурный атлас* (texture atlas) — одну большую текстуру, из которой каждый блок берёт свой кусочек.
+- **Если вы делаете стратегию:** все юниты пехоты используют одинаковую 3D-модель (меш), одинаковую текстуру, одинаковые анимации, одинаковые настройки максимального здоровья и т.д. Вам нужно создать *всего один объект* с этими данными, и затем все юниты пехоты смогут ссылаться на него. Каждому отдельному юниту при этом нужно будет хранить только то, что уникально для него: его текущую позицию на карте и текущее здоровье.
+- **Это уже реализовано в Unity** через [`sharedMesh`](https://docs.unity3d.com/ScriptReference/MeshFilter-sharedMesh.html) и [`sharedMaterial`](https://docs.unity3d.com/ScriptReference/Renderer-sharedMaterial.html). Если вы измените `sharedMesh`, то все объекты, которые его используют, увидят новую модель.
+- **В играх с открытым миром** вы можете многократно использовать одни и те же деревья и камни, просто поворачивая и масштабируя их — никто не заметит, что это одна и та же модель.
+- **Если вы делаете гоночную игру:** достаточно одного звука столкновения. А затем каждый раз при аварии вы просто меняете настройки этого звука (например, высоту тона — pitch), чтобы получать разные звуки удара.
 
-- If you make a strategy game, all infantry units share the same mesh, texture, animation, maxHealth settings, etc. You only need to create one object with this data and then all infantry units can share that object. Each individual infantry unit only need to keep track of its own position and health.   
+**Связанные шаблоны**
 
-- This is implemented in Unity as [sharedMesh](https://docs.unity3d.com/ScriptReference/MeshFilter-sharedMesh.html) and [sharedMaterial](https://docs.unity3d.com/ScriptReference/Renderer-sharedMaterial.html). If you make a change to a sharedMesh then all objects using that mesh will get a new mesh. 
-
-- In an open world game you can use the trees and rocks multiple times by rotating and scaling them - and no-one will see they are the same model.
-
-- If you make a car game it is enough to use one crash sound - and then change the settings of that sound, such as pitch, to create different crash sounds every time the car crashes.  
-
-**Related patterns**
-
-- **Type Object.** The main difference is that in Type Object you don't need to have the exact same data and you can also have behavior. 
+- **Объект тип (Type Object).** Главное отличие в том, что в Type Object данные не обязаны быть *точно одинаковыми* для всех экземпляров, и в нём также может быть *поведение* (методы), а не только данные.
 
 
-## [Back](../)
+## [Назад](../)
