@@ -1,22 +1,21 @@
-# 4. Prototype
+# 4. Прототип (Prototype)
 
-In your game you have a game object. Now you want to duplicate that object. This pattern allows you to create as many duplicates of an object as you want.
+В вашей игре есть некий игровой объект. И вы хотите создать его *копию*. Этот паттерн позволяет создавать столько копий объекта, сколько вам нужно.
 
-**How to implement?**
+**Как это реализовать?**
 
-This is a pattern that already exists in Unity in the form of the [Instantiate-method](https://docs.unity3d.com/ScriptReference/Object.Instantiate.html). But it assumes that the object you want to duplicate inherits from Object, which is a class in UnityEngine.
+Этот паттерн уже существует в Unity в виде метода [`Instantiate`](https://docs.unity3d.com/ScriptReference/Object.Instantiate.html). Но он предполагает, что объект, который вы хотите скопировать, наследуется от `Object` — класса из пространства имён `UnityEngine`.
 
-You can also make you own implementation. But then you have to ask yourself: do you do a deep clone (a copy of the structure and the elements in the structure) or a shallow clone (a copy of the structure not the elements in the structure)? Maybe the Flyweight pattern can give you the answer?    
+Вы также можете сделать свою собственную реализацию. Но тогда вам придётся ответить себе на вопрос: вам нужно *глубокое копирование (deep clone)* — когда копируется и сама структура, и все элементы внутри неё, — или *поверхностное копирование (shallow clone)* — когда копируется только структура, а элементы внутри неё остаются общими с оригиналом? Может быть, ответ на этот вопрос вам подскажет паттерн «Приспособленец» (Flyweight).
 
-**When is it useful?**
+**Когда это полезно?**
 
-- If you have a gun that fires bullets. You add one bullet prefab to the script. Each time you fire the gun you need a new bullet because you don't want to use the original bullet, so you call Unity's Instantiate-method and you get a duplicate of the original bullet.
+- Допустим у вас есть пистолет, который стреляет пулями. Вы добавляете в скрипт один *префаб* пули. Каждый раз, когда вы стреляете, вам нужна *новая* пуля — ведь вы не хотите использовать ту же самую пулю, что и в первый раз. Поэтому вы вызываете метод `Instantiate` в Unity и получаете копию исходной пули.
 
-**Related patterns**
+**Связанные паттерны**
 
-- **Factory.** In the Factory you are generally generating new objects - not copies of already existing objects (which may include position and other states). You can put the Prototype inside of the Factory so you have one class where you create all objects instead of having the creation in multiple classes which might be troublesome if you want to change something. 
+- **Фабрика (Factory).** Фабрика обычно нужна для создания *новых* объектов, а не копий уже существующих (у которых может быть позиционирование и другие состояния). Вы можете поместить «Прототип» внутрь «Фабрики», чтобы у вас был один класс, отвечающий за создание всех объектов. Это лучше, чем разносить создание объектов по множеству классов — иначе потом будет трудно что-то изменить.
+- **Пул объектов (Object Pool).** Если вы постоянно создаёте (`Instantiate`) и уничтожаете (`Destroy`) много игровых объектов, это сильно сказывается на производительности игры. Чтобы решить эту проблему, можно использовать паттерн «Пул объектов».
 
-- **Object Pool.** If you Instantiate and destroy many game objects it will affect the performance of the game. To solve that problem you can use the Object Pool pattern.
 
-
-## [Back](../) 
+## [Назад](../) 
