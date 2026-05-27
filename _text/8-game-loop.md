@@ -1,24 +1,22 @@
-# 8. Game Loop
+# 8. Игровой цикл (Game Loop)
 
-The game loop is the core of all games. It's basically an infinite while loop that keeps updating until you stop it. But the problem with such a while loop is that it updates faster on faster computers than it is on slower computers. This will be very problematic if you have some object that travels with some speed, then it will travel faster on the faster computer. To solve this problem you need to take time into account by using the following:
+Игровой цикл — это сердце любой игры. По сути, это бесконечный цикл `while`, который продолжает обновляться, пока вы его не остановите. Но проблема такого цикла в том, что на быстрых компьютерах он обновляется чаще, чем на медленных. Это становится серьёзной проблемой, если у вас есть какой-то объект, движущийся с определённой скоростью: на более быстром компьютере он будет двигаться быстрее. Чтобы решить эту проблему, нужно учитывать время. Вот два основных подхода:
 
-- Fixed time step. You determine you want the game to run at 30 frames-per-second (FPS). Now you know how long one while loop should take (1/30 = 0.03333 seconds). If the while loop is faster than that, you simply pause it at the end until 0.03333 seconds has passed. If it's slower, you should optimize your game.  
+- **Фиксированный шаг по времени.** Вы решили, что игра должна работать с частотой 30 кадров в секунду (FPS). Отсюда мы знаем, сколько должен длиться один цикл: 1/30 = 0.03333 секунды. Если цикл выполняется быстрее, вы просто приостанавливаете его в конце, пока не пройдёт 0.03333 секунды. Если цикл выполняется медленнее — значит, игру нужно оптимизировать.
+- **Переменный (адаптивный) шаг по времени.** Вы измеряете, сколько секунд прошло с момента последнего кадра. Затем передаёте это время в метод обновления, чтобы игровой мир делал *большие* шаги, если компьютер медленный, и *маленькие* шаги, если компьютер быстрый.
 
-- Variable (fluid) time step. You measure how many seconds has passed since the last frame. You then pass this time to the update method, so the game world can take bigger steps if the computer is slow and smaller steps if the computer is fast.    
+**Как это реализовать?**
 
-**How to implement?**
+Этот паттерн уже реализован в Unity, которая фактически использует обе версии цикла:
 
-This pattern has already been implemented in Unity, which is actually using both versions of the while loop:
-	
-- Fixed time step: Time.fixedDeltaTime. This version is used for physics calculations where you should use a constant step to make more accurate calculations. 
-	
-- Variable time step: [Time.deltaTime](https://docs.unity3d.com/ScriptReference/Time-deltaTime.html), which Unity defines as "The completion time in seconds since the last frame." 
+- **Фиксированный шаг по времени:** `Time.fixedDeltaTime`. Эта версия используется для физических расчётов, где нужен постоянный шаг для большей точности.
+- **Переменный шаг по времени:** [`Time.deltaTime`](https://docs.unity3d.com/ScriptReference/Time-deltaTime.html), который в Unity определяется как «время в секундах, прошедшее с момента последнего кадра».
 
-The game loop is also checking for input before anything else. This is why in Unity you can type "if (Input.GetKey(KeyCode.A))" because the game loop has already checked (before the update method) if the A key has been pressed and stored that information in some data structure. 
+Игровой цикл также проверяет ввод пользователя перед всем остальным. Именно поэтому в Unity вы можете написать `if (Input.GetKey(KeyCode.A))` — потому что игровой цикл уже проверил (до вызова метода обновления), была ли нажата клавиша A, и сохранил эту информацию в какой-то структуре данных.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- When you have a bullet that should move with a constant speed. So you determine a bulletSpeed and in the update method you multiply the speed with Time.deltaTime so the bullet travels with the same speed no matter how fast the computer is. 
+- Когда у вас есть пуля, которая должна двигаться с постоянной скоростью. Вы задаёте `bulletSpeed`, а в методе обновления умножаете скорость на `Time.deltaTime`, чтобы пуля двигалась с одинаковой скоростью независимо от того, насколько быстрый компьютер.
 
 
-## [Back](../)  
+## [Назад](../)  
