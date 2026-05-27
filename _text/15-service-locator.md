@@ -1,34 +1,28 @@
-# 15. Service Locator
+# 15. Поиск службы (Service Locator)
 
-When making your game you use many standardized methods to for example generate random numbers. These are called services and should be accessible from everywhere (globally) but still be independet from your game's main code. The pattern allows services to be easily replaced or extended without affecting the existing code that relies on them.    
+Когда вы делаете игру, вы используете много стандартизированных методов — например, для генерации случайных чисел. Это называется *службами (сервисами)*, и они должны быть доступны отовсюду (глобально), но при этом оставаться независимыми от основного кода вашей игры. Данный паттерн позволяет легко заменять или расширять службы, не затрагивая существующий код, который от них зависит.
 
-**How to implement?**
+**Как это реализовать?**
 
-Put each service in a static class. The static class should be in its own folder and have its own namespace to make sure you are not mixing the services with your main code.
+Поместите каждую службу в статический класс (`static`). Статический класс должен лежать в своей собственной папке и иметь своё пространство имён (`namespace`), чтобы случайно не смешивать службы с основным кодом.
 
-Use a Service Locator that provides access to a service provider. To make sure no other methods than the ones you need are exposed to the outside world, the service provider should limit which methods it can provide access to.   
+Используйте *локатор служб (Service Locator)*, который предоставляет доступ к *поставщику служб*. Чтобы никакие другие методы, кроме нужных, не были доступны снаружи, поставщик служб должен ограничивать доступ к предоставляемым методам.
 
-Unity has implemented this pattern in the form of the GetComponent() method.
+Unity уже реализовала этот паттерн в виде метода `GetComponent()`.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- Several services are already built-in into Unity, such as Random.Range() to get a random number, Mathf.PI to get pi, and Debug.Log() to display something in the console.
+- Некоторые службы уже встроены в Unity, например: `Random.Range()` — получить случайное число, `Mathf.PI` — получить число Пи, `Debug.Log()` — вывести что-то в консоль.
+- В игре могут использоваться разные аудио-объекты в зависимости от того, запущена игра на консоли или на ПК. Это тот же пример, что и в книге, так что вы можете найти код в исходниках.
+- **Для внедрения зависимостей (dependency injection) в игровые объекты или системы.** Вместо жёсткого прописывания ссылок на конкретные службы, игровые объекты могут использовать локатор служб, чтобы запрашивать и получать нужные службы во время выполнения.
+- **Для получения службы ввода (input service),** скрывая детали работы с конкретным устройством ввода.
+- Объекты или системы, которым нужно отображать локализованный текст, могут использовать локатор служб для получения соответствующей службы локализации.
+- Объекты, которым нужен искусственный интеллект, могут использовать локатор служб для доступа к службам, связанным с ИИ — например, к алгоритмам поиска пути или принятия решений.
 
-- In the game you may have different audio objects depending on if the game is running on a console or PC. This is the same example as in the book so you can find the code for it in the code section.  
+**Связанные паттерны**
 
-- To inject dependencies into game objects or systems - aka dependency injection. Instead of hardcoding the references to specific services, game objects can use the service locator to request and retrieve the required services at runtime.
-
-- To obtain the input service, abstracting away the underlying input device handling.
-
-- Objects or systems that need to display localized text can use the service locator to retrieve the appropriate localization service.
-
-- Objects that need AI functionality can use the service locator to access AI-related services, such as pathfinding or decision-making algorithms.
-
-**Related patterns** 
-
-- **Singleton.** Both provide a global access to an object. So the problems with the Singleton also applies to this pattern.  
-
-- **Facade.** You can use Facade in combination with Service Locator.
+- **Синглтон (Singleton).** Оба шаблона предоставляют глобальный доступ к объекту. Так что проблемы, присущие «Синглтону», относятся и к этому шаблону.
+- **Фасад (Facade).** Вы можете использовать «Фасад» в сочетании с «Поиском службы».
 
 
-## [Back](../)
+## [Назад](../)
