@@ -1,36 +1,27 @@
-# 6. State
+# 6. Состояние (State)
 
-Your game can be in a number of states. The main character can have the following states: jump, walk, run, etc. Now you want an easy way to switch between the states. This pattern is also known as a **state machine,** and if you have a finite amount of states you get a **finite state machine (FSM).**
+Ваша игра может находиться в одном из нескольких состояний. Например, у главного героя могут быть такие состояния: прыжок, ходьба, бег и т.д. Вам нужен простой способ переключаться между этими состояниями. Этот паттерн также известен как **конечный автомат (state machine)**. Если количество состояний ограничено, то получается **конечный автомат (finite state machine, FSM)**.
 
-**How to implement?**
+**Как это реализовать?**
 
-You could use an enum that keeps track of each state and then a switch statement. The problem with the switch statement is that it becomes complicated the more states you add. A better way is to define an object for each state and then you switch between the objects as you switch states.
+Можно использовать перечисление (`enum`), где каждое состояние представлено своей константой, а затем переключаться между ними через конструкцию `switch`. Проблема этого подхода в том, что чем больше состояний вы добавляете, тем сложнее и запутаннее становится `switch`. Более удобный способ — создать отдельный *объект для каждого состояния*, и при смене состояния просто заменять текущий объект состояния на другой.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- When you have too many nested if-statements, such as in a menu system. In the code, you can see an example of a menu system using the State pattern.
+- Когда у вас слишком много вложенных `if`-ов, например, в системе меню. В исходниках вы можете увидеть пример системы меню, реализованной с помощью паттерна «Состояние».
+- Unity уже использует этот паттерн в своём движке анимаций.
+- Когда вы делаете пошаговую боевую систему. Пример: [How to Code a Simple State Machine](https://www.youtube.com/watch?v=G1bd75R10m4).
+- Если вы делаете игру в стиле GTA. У вас есть состояние для езды на машине, состояние для персонажа вне машины, состояние для полёта и т.д. При этом вы можете добавить ещё и *состояния внутри состояний*. Например, в классе состояния «персонаж вне машины» можно сделать подсостояния: «ничего не держит», «держит гранату», «держит пистолет» и т.п.
+- Искусственный интеллект (AI) врагов часто использует паттерн «Состояние». Например, криперы в Minecraft имеют три состояния: «двигаться случайным образом, когда игрок далеко», «двигаться к игроку, если игрок ближе», «взорваться, когда игрок совсем рядом».
+- Сама игра тоже может находиться в разных состояниях: интро-ролик, главное меню, основной игровой процесс, мини-игра и т.д.
+- Паттерн можно использовать для управления взаимодействием между различными игровыми объектами. Например, у объекта «дверь» могут быть состояния: открыта, закрыта, заперта, отперта — и поведение двери меняется в зависимости от текущего состояния.
 
-- Unity is using this pattern in the animation engine.
- 
-- When you make a turn-based combat system: [How to Code a Simple State Machine](https://www.youtube.com/watch?v=G1bd75R10m4).
+**Связанные паттерны**
 
-- If you are making a GTA-style game. You have one state for driving, one for when the character is not in a vehicle, another state for flying, etc. Then you can also add state-of-states. For example, in the state class where the character is not in a vehicle, you can have several sub-states, such as holding nothing, holding grenade, holding pistol, etc. 
-
-- Enemy AI is often using the State pattern. The creepers in Minecraft have three states: move randomly when you are far away, move towards you if you are closer, blow up when you are very close.
-
-- The game itself can be a number of states: intro video, main menu, main game, mini game, etc. 
-
-- Can be used to manage interactions between different game objects. For example, a door object can have states like open, closed, locked, and unlocked, and its behavior changes depending on its current state.
-
-**Related patterns**
-
-- **Type Object.** In both cases you have a main object and then you add another object to define something. The difference is that in State you switch the other object, while in Type Object that object remains the same. So if the object in Type Object can be switched you get the State pattern.
-
-- **Strategy.** With this pattern you can give an object a new behavior (a new strategy to follow) without taking into account its current state or states coming after the current behavior.   
-
-- **Memento.** Same as state but you can roll back to a previous state.  
-
-- **Behavior Tree.** Is useful if you have many states and want a more complex behavior. 
+- **Объект-тип (Type Object).** В обоих паттернах у вас есть главный объект, и вы добавляете к нему другой объект, чтобы определить что-то (поведение, характеристики). Разница в том, что в паттерне «Состояние» вы *переключаете* этот дополнительный объект (заменяете одно состояние другим), а в «Объекте-типе» этот объект остаётся одним и тем же на всём протяжении жизни главного объекта. Если в «Объекте-типе» разрешить переключение, то он превратится в «Состояние».
+- **Стратегия (Strategy).** С помощью этого паттерна вы можете дать объекту новое поведение (новую стратегию), при этом не думая о том, в каком состоянии объект сейчас находится и в какое состояние он перейдёт после выполнения текущего поведения.
+- **Хранитель (Memento).** Работает так же, как и «Состояние», но позволяет *откатиться* к предыдущему состоянию.
+- **Дерево поведения (Behavior Tree).** Полезно, если у вас очень много состояний и вам нужно более сложное, разветвлённое поведение.
 
 
-## [Back](../) 
+## [Назад](../) 
