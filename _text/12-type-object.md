@@ -1,28 +1,23 @@
-# 12. Type Object
+# 12. Объект-тип (Type Object)
 
-You have an object and now you want to change its type (such as behavior or some data) by giving it a reference to an object that defines the type, thus the name Type Object. Another way could be to use class inheritance to define a child class which includes to code for the type, but that's not always possible because different children may be of the same type.  
+У вас есть объект, и вы хотите изменить его *тип* (например, поведение или какие-то данные), передав ему ссылку на объект, который определяет этот тип (отсюда и название). Или ещё вариант - когда используется наследование, чтобы определить дочерний класс, включающий код для нужного типа. Такое не всегда возможно, так как разные дочерние классы могут принадлежать к одному и тому же типу.
 
-**How to implement?**
+**Как это реализовать?**
 
-The Type Objects should share the same interface (or parent) to make it easier for the main class to reference the object.        
+Объекты-типы должны использовать один и тот же интерфейс (или наследоваться от одного родителя), чтобы основному классу было проще ссылаться на них.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- When you can't (or don't want to) use class inheritance. Let's say you make a game with animals. You have a base class which is parent to all animals, and then as children to that class you add birds, fish, and mammals. In the bird class you define a flying behavior, which is all fine until you add an ostrich, which can't fly. In that case you have to inherit from the bird class and create new children that can fly and can't fly. But what about bats, which is a mammal that can fly? You don't want to add flying behavior in two separate classes! A better way is to define a flying and a non-flying type in a separate class, so both ostriches remain on the ground and bats can fly.
+- **Когда вы не можете (или не хотите) использовать наследование классов.** Допустим, вы делаете игру про животных. У вас есть базовый класс — родитель для всех животных, а затем в качестве его дочерних классов вы добавляете `Птицы`, `Рыбы` и `Млекопитающие`. В классе `Птицы` вы определяете поведение «умение летать». Всё хорошо, пока вы не добавляете страуса, который летать не умеет. В этом случае вам придётся наследоваться от класса `Птицы` и создавать два новых дочерних класса: «летающие птицы» и «нелетающие птицы». А что насчёт летучих мышей, которые являются млекопитающими, но при этом умеют летать? Вам же не хочется добавлять поведение «умение летать» в двух разных местах! Лучший способ — определить тип «летающий» и тип «нелетающий» в отдельном классе. Тогда и страусы останутся на земле, и летучие мыши смогут летать.
+- **В системах игровых событий** «Объект-тип» можно использовать для определения типов событий как объектов. Это позволяет динамически регистрировать и обрабатывать разные типы событий во время выполнения игры, делая систему событий более гибкой и адаптируемой.
+- **Для управления конфигурацией игры и настройками.** Представляя различные параметры конфигурации как объекты, вы можете динамически переключаться между разными настройками.
+- **Когда вам нужно менять тип во время выполнения игры.**
 
-- In game event systems, the Type Object can be used to define event types as objects. This allows for dynamic registration and handling of different event types during runtime, making the event system more versatile and adaptable.
+**Связанные паттерны**
 
-- Can be used to manage game configuration and settings. By representing different configuration options or settings as objects, you can dynamically switch between different configurations.
-
-- If you need to switching type at runtime.
-
-**Related patterns**
-
-- **State.** In both cases you have a main object and then you add another object to define something. The difference is that in State you switch the other object, while in Type Object that object remains the same. So if the type can be switched you get the State pattern.
- 
-- **Subclass Sandbox.** You could define all types in the parent class and then combine them in the child class. 
- 
-- **Component.** The difference is that the Component is not always coupled with something else on the game object – it’s living its own life. In Unity you can add colliders, scripts, mesh renderers and they don’t need to know about each other to function. Type Object, however, is about adding a behavior to an existing class, so the type can't live on its own.
+- **Состояние (State).** В обоих паттернах у вас есть главный объект, и вы добавляете к нему другой объект, чтобы определить что-либо. Разница в том, что в «Состоянии» вы *переключаете* этот дополнительный объект, а в «Объекте-типе» он остаётся тем же самым. Таким образом, если тип можно переключать, вы получаете паттерн «Состояние».
+- **Подкласс-песочница (Subclass Sandbox).** Вы могли бы определить все типы в родительском классе, а затем комбинировать их в дочернем классе.
+- **Компонент (Component).** Разница в том, что «Компонент» не всегда привязан к чему-то ещё на игровом объекте — он живёт своей собственной жизнью. В Unity вы можете добавлять коллайдеры, скрипты, меш-рендереры, и им не нужно знать друг о друге, чтобы функционировать. «Объект-тип», напротив, предназначен для добавления поведения к уже существующему классу, поэтому тип не может существовать сам по себе.
 
 
-## [Back](../)
+## [Назад](../)
