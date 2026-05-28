@@ -1,26 +1,22 @@
-# 23. Template
+# 23. Шаблон (Template)
 
-You have objects that uses the same overall algorithm, but the objects implement some steps in the algorithm in a different way.  
+У вас есть объекты, которые используют один и тот же общий алгоритм, но реализуют какие-то шаги этого алгоритма по-разному.
 
-**How to implement?**
+**Как это реализовать?**
 
-Define a template method in the parent class which consists of calling several methods. In the child class, you override the methods that are specific for the child class.
+Определите *шаблонный метод* (template method) в родительском классе, который состоит из вызовов нескольких других методов. В дочернем классе вы переопределяете (override) те методы, которые специфичны для этого дочернего класса.
 
-**When is it useful?**
+**Когда это полезно?**
 
-- When your child classes share behavior and the parent class can provide these behaviors. The example in the code shows how to assemble Tesla cars. While each car consists of different parts the process of assembling a car is the same. 
+- Когда ваши дочерние классы используют общее поведение, и родительский класс может предоставить это поведение. Пример в исходниках показывает, как собирать автомобили Tesla. Хотя каждая машина состоит из разных деталей, процесс сборки автомобиля одинаков.
+- **Для определения поведения игровых персонажей.** Общая структура алгоритма может включать такие действия, как движение, атака и взаимодействие с окружением. Классы-наследники, представляющие разные типы персонажей (например, воин, маг, разбойник), могут затем переопределять конкретные шаги для реализации своих уникальных способностей и характеристик.
+- В играх, использующих процедурную генерацию уровней, шаблонный алгоритм может описывать общую структуру и компоненты уровня, в то время как дочерние классы могут настраивать детали, такие как особенности ландшафта, препятствия и расстановка врагов.
+- **Для систем ИИ** шаблонный алгоритм может включать такие шаги, как оценка угроз, рассмотрение целей и выбор действий. Различные ИИ-агенты или типы врагов могут затем предоставлять свои собственные реализации для конкретных критериев принятия решений.
+- Паттерн «Шаблон» можно применять для определения поведения различных игровых состояний (например, меню, игровой процесс, кат-сцена). Шаблонный алгоритм может определять переходы и поведение, общие для всех состояний, в то время как отдельные классы-наследники состояний реализуют логику, специфичную для каждого состояния.
 
-- To define the behavior of game characters. The common algorithm structure could include actions like movement, attacking, and interacting with the environment. Subclasses representing different character types (e.g., warrior, mage, rogue) can then override specific steps to implement their unique abilities and attributes.
+**Связанные паттерны**
 
-- In games that involve procedural level generation, the template algorithm can outline the general layout and components of a level, while subclasses can customize the details, such as terrain features, obstacles, and enemy placement.
-
-- For AI systems, the template algorithm could include steps like evaluating threats, considering objectives, and choosing actions. Different AI agents or enemy types can then provide their own implementations for specific decision-making criteria.
-
-- The Template Method Pattern can be applied to define the behavior of different game states (e.g., menu, gameplay, cutscene). The template algorithm could specify the transitions and behavior common to all states, while individual state subclasses can implement state-specific logic.
-
-**Related patterns**
-
-- **Subclass Sandbox.** Here you combine methods defined in the parent class. 
+- **Подкласс-песочница (Subclass Sandbox).** Здесь вы комбинируете методы, определённые в родительском классе.
 
 
-## [Back](../)
+## [Назад](../)
