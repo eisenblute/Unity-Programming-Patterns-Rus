@@ -1,32 +1,28 @@
-# 18. Object Pool
+# 18. Пул объектов (Object Pool)
 
-If you constantly create and destroy objects, the performance of your game will suffer. A better way is to create the objects once when you start the game and deactivate them. When you need an object, you pick one of the deactivate objects and activate it. When you don't need the object anymore, you deactivate it instead of destroying it.   
+Если вы постоянно создаёте и уничтожаете объекты, производительность вашей игры будет страдать. Лучший способ — создать объекты один раз при запуске игры и сразу же их *деактивировать*. Когда вам понадобится объект, вы берёте один из деактивированных объектов и активируете его. Когда объект больше не нужен, вы *деактивируете* его вместо того, чтобы уничтожать.
 
-**How to implement?**
+**Как это реализовать?**
 
-Create a class called object pool. Give it an object prefab and instantiate the number of objects you think you will need. Store them in a list. When you need an object you search through the list for a deactivated object and returns the first you find. If you realize you need more objects than the objects you started with, you have a few choises: 
+Создайте класс под названием «Пул объектов» (Object Pool). Дайте ему префаб объекта и создайте столько экземпляров объектов, сколько, по вашим оценкам, вам понадобится. Храните их в списке. Когда вам нужен объект, вы просматриваете список в поисках деактивированного объекта и возвращаете первый найденный. Если вы понимаете, что вам нужно больше объектов, чем было создано изначально, у вас есть несколько вариантов:
 
-	- You can instantiate more objects during gameplay. But make sure you don't instantiate too many objects because it will be a waste of memory. You could later remove the "extra" objects you added.  
+- Вы можете создавать дополнительные объекты прямо во время игры. Но убедитесь, что вы не создаёте их слишком много — это будет пустой тратой памяти. Позже вы можете удалить эти «дополнительные» объекты.
+- Выбрать один из активных объектов, который, возможно, исчезнет незаметно для игрока, и использовать его.
+- Проигнорировать тот факт, что объектов больше нет — возможно, это нормально. Если экран заполнен взрывами, игрок не заметит отсутствия одного нового взрыва.
 
-	- Pick one of the objects that's active but the player will not notice if it suddeny disappears so you can use it.
+Если вы просматриваете список каждый раз, чтобы найти доступный объект, и список очень длинный (потому что объектов в пуле много), вы тратите время впустую. Лучший способ — хранить объекты в пуле в виде *связного списка*.
 
-	- Ignore that you have no more objects, which may be fine. If the screen is filled with explosions, the player will not notice a new explosion is missing.
+Этот паттерн настолько популярен, что Unity реализовала собственную его версию под названием [`ObjectPool`](https://docs.unity3d.com/ScriptReference/Pool.ObjectPool_1.html). Она доступна только в более новых версиях Unity.
 
-If you search the list to find an avilable object, and the list is very long because you have many pooled objects, you waste time. A better way is to store the objects in the pool in a linked-list.
+**Когда это полезно?**
 
-This pattern is so popular Unity has implemented their own version of it called [ObjectPool](https://docs.unity3d.com/ScriptReference/Pool.ObjectPool_1.html). Is only available in later versions of Unity.
+- **Когда вы стреляете из пистолета**, вам требуется много пуль. Я привёл пример этого в исходниках. Вы можете найти три способа: *оптимизированная* версия, использующая связный список, *медленная*, но простая версия, которая просматривает список для поиска, и *нативный пул объектов* от Unity.
+- **Unity использует этот паттерн в своей системе частиц.** В настройках частиц вы можете задать максимальное количество частиц — это полезно, чтобы случайно не создать миллионы частиц.
 
-**When is it useful?**
+**Связанные паттерны**
 
-- When you fire bullets from a gun then you will need many bullets. I've given an example of this in the code section. You can find three versions: the optimized version which uses a linked-list, the slow ut simple version which has to search a list, and Unity's native object pool. 
-
-- Unity is using this pattern in their particle system. In the particle settings you can set max number of particles, which can be useful so you don't accidentally instantiate millions of particles.      
-
-**Related patterns** 
-
-- **Data Locality.** In this pattern you pack objects of the same type together in memory. It will help the CPU cache to be full as the game iterates over those objects, which is what the Data Locality patterns is about.
-
-- **Prototype.**
+- **Локальность данных (Data Locality).** В этом паттерне вы упаковываете объекты одного типа в памяти рядом друг с другом. Это помогает заполнить кэш процессора (CPU cache), когда игра перебирает эти объекты — в этом как раз и суть паттерна «Локальность данных».
+- **Прототип (Prototype).**
 
 
 ## [Back](../)
