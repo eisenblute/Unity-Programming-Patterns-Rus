@@ -7,9 +7,9 @@ namespace Observer.StaticEvents
 {
     public class Enemy : MonoBehaviour
     {
-        //Because this is static we only need to subscribe to this event once
+        //Поскольку это статическое событие, нам нужно подписаться на него только один раз
         public static event Action<Enemy> onAnyEnemyDie;
-        //What the enemy is worth
+        //Ценность врага (сколько очков даёт)
         public int enemyValue { get; private set; }
 
 
@@ -31,10 +31,10 @@ namespace Observer.StaticEvents
 
             //Debug.Log(enemyValue);
 
-            //Invoke the event and to each method that subscribes to the event we will send a reference to this object
-            onAnyEnemyDie?.Invoke(this);
+            //Вызываем событие, и каждому методу, который подписан на это событие, отправляем ссылку на этот объект
+            onAnyEnemyDie.Invoke(this);
 
-            //This is also working, but is less clear
+            //Это тоже работает, но менее чётко
             //onAnyEnemyDie(this);
         }
     }

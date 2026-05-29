@@ -7,55 +7,59 @@ using UnityEngine.Serialization;
 
 namespace Observer.DifferentEvents
 {
-    //A summary of all different events alternatives
+    //Сводка всех различных альтернатив событий
     public class DifferentEventAlternatives : MonoBehaviour
     {
-        //
-        // Built-in event handling 
-        //
+        //-----------------------------
+        // Встроенная обработка событий 
+        //-----------------------------
 
-        //C# built-in EventHandler
-        //Requires "using System;"
+        //Встроенный в C# EventHandler
+        //Требует "using System;"
         public event EventHandler myCoolEvent;
-        //With parameters
+        //С параметрами
         public event EventHandler<MyName> myCoolEventWithParameters;
 
 
-        //C# built-in Action
-        //If we have more parameters we can use Action. Compared with EventHandler, the parameters dont have to inherit from EventArgs
+        //Встроенный в C# Action
+        //Если у нас больше параметров, можем использовать Action. 
+        //По сравнению с EventHandler, параметры не обязаны наследовать от EventArgs
         public event Action<MyName, MyAge> myCoolEventAction;
 
 
-        //Unity built-in UnityEvent
-        //Requires that we are "using UnityEngine.Events;"
+        //Встроенный в Unity UnityEvent
+        //Требует "using UnityEngine.Events;"
         [FormerlySerializedAs("CoolUnityEvent")] public UnityEvent coolUnityEvent = new UnityEvent();
-        //If you have parameters you have to create a new event class that inherits from UnityEvent<parameter1, parameter2, ...>
+        
+        //Если у вас есть параметры, нужно создать новый класс события, наследующий от UnityEvent<параметр1, параметр2, ...>
         public MyCustomUnityEvent coolCustomUnityEvent = new MyCustomUnityEvent();
-        //There's also something called UnityAction
-        //You can add multiple methods to a single UnityAction, and we can add multiple UnityAction to a single UnityEvent
-        //The UnityEvent will then trigger all UnityAction associated with it, which will in turn trigger all methods associated with the UnityAction
-        //This will make it easier to remove groups if you attach group to a single UnityAction, then you can just remove it
-        //Create a UnityAction: UnityAction unityAction = new UnityAction(SomeMethodThatShouldBeCalled);
-        //Add a new method to the same UnityAction: unityAction += SomeOtherMethodThatShouldBeCalled
+        
+        //Существует также UnityAction
+        //Вы можете добавить несколько методов в один UnityAction, и мы можем добавить несколько UnityAction в один UnityEvent
+        //Затем UnityEvent вызовет все связанные с ним UnityAction, которые, в свою очередь, вызовут все методы, связанные с UnityAction
+        //Это упростит удаление групп: если привязать группу к одному UnityAction, то можно просто удалить её
+        //Создание UnityAction: UnityAction unityAction = new UnityAction(SomeMethodThatShouldBeCalled);
+        //Добавление нового метода к тому же UnityAction: unityAction += SomeOtherMethodThatShouldBeCalled
 
-        //The problem with UnityEvents
-        //To get how many are listening to an event: thisEvent.GetPersistentEventCount(); BUT this number is not always accurate because Unity is for some reason only counting permanently serialized (like the ones you add in inspector) - not the ones you add in code. If you need this function you have to use C# events
+        //Проблема с UnityEvents
+        //Чтобы узнать, сколько подписчиков "слушает" событие: thisEvent.GetPersistentEventCount(); 
+        //Но это число не всегда точное, потому что Unity по какой-то причине считает только постоянно сериализованные (например, добавленные в инспекторе), а не добавленные в коде. Если вам нужна эта функциональность, используйте C# события
 
 
 
-        //
-        // Custom event handling
-        //
+        //-----------------------------
+        // Пользовательская обработка событий
+        //-----------------------------
 
-        //Custom delegate with the same parameters as built-in EventHandler
+        //Пользовательский делегат с теми же параметрами, что и встроенный EventHandler
         public delegate void MyEventHandler(object sender, EventArgs e);
-        //Custom delegate with no parameters
-
+        
+        //Пользовательский делегат без параметров
         public MyEventHandler myEventHandler;
         
         public delegate void MyEventHandlerEmpty();
 
-        //The event belonging to the custom delegate
+        //Событие, принадлежащее пользовательскому делегату
         public event MyEventHandlerEmpty myCoolCustomEvent;
 
 
@@ -83,7 +87,7 @@ namespace Observer.DifferentEvents
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //Built-in
+                //Встроенные
                 myCoolEvent?.Invoke(this, null);
 
                 myCoolEventWithParameters?.Invoke(this, new MyName("InsertFunnyName"));
@@ -94,7 +98,7 @@ namespace Observer.DifferentEvents
 
                 coolCustomUnityEvent?.Invoke(new MyName("InsertFunnyName"), new MyAge(5));
 
-                //Custom
+                //Пользовательские
                 myEventHandler?.Invoke(this, null);
 
                 myCoolCustomEvent?.Invoke();
@@ -103,31 +107,31 @@ namespace Observer.DifferentEvents
 
 
 
-        //What the event will trigger
+        //Что вызовет событие
         private void DisplayStuff(object sender, EventArgs args)
         {
-            Debug.Log("Hello this is DisplayStuff");
+            Debug.Log("Привет, это DisplayStuff");
         }
 
         private void DisplayStuffCustomArgs(object sender, MyName args)
         {
-            Debug.Log($"Hello my name is {args.name}");
+            Debug.Log($"Привет, меня зовут {args.name}");
         }
 
         private void DisplayStuffCustomParameters(MyName myName, MyAge myAge)
         {
-            Debug.Log($"Hello my name is {myName.name} and my age is {myAge.age}");
+            Debug.Log($"Привет, меня зовут {myName.name} и мой возраст {myAge.age}");
         }
 
         private void DisplayStuffEmpty()
         {
-            Debug.Log("Hello this is empty");
+            Debug.Log("Привет, это пустой метод");
         }
     }
 
 
 
-    //Parameters in EventHandler have to inherit from EventArgs
+    //Параметры в EventHandler должны наследовать от EventArgs
     public class MyName : EventArgs
     {
         public string name;
@@ -150,9 +154,9 @@ namespace Observer.DifferentEvents
 
 
 
-    //To make parameters work with UnityEvents
+    //Чтобы параметры работали с UnityEvents
     public class MyCustomUnityEvent : UnityEvent<MyName, MyAge>
     {
-        //Should be empty
+        //Должен быть пустым
     }
 }
