@@ -21,7 +21,7 @@ namespace CommandPattern.RebindKeys
         }
 
 
-        //Undo is just the opposite
+        //Отмена — это просто противоположное действие
         public override void Undo()
         {
             moveObject.MoveForward();

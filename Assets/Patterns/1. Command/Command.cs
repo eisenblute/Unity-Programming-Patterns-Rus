@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace CommandPattern
 {
-    //Base class for the commands
-    //This class should always look like this to make it more general, so no constructors, parameters, etc!!!
+    //Базовый класс для команд
+    //Этот класс всегда должен выглядеть так, чтобы быть более общим, поэтому никаких конструкторов, параметров и т.д.!!!
     public abstract class Command
     {
         public abstract void Execute();

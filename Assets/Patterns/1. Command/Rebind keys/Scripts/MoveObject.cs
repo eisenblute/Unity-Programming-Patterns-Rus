@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace CommandPattern.RebindKeys
 {
-    //This class handles all methods that moves the object it's attached to
+    //Этот класс обрабатывает все методы, которые перемещают объект, к которому он прикреплён
     public class MoveObject : MonoBehaviour
     {
-        //Speed of the object
+        //Скорость перемещения объекта
         private const float MOVE_STEP_DISTANCE = 1f;
 
 
-        //These methods will be executed by their own command
+        //Эти методы будут выполняться своей собственной командой
         public void MoveForward()
         {
             Move(Vector3.forward);
@@ -33,7 +33,7 @@ namespace CommandPattern.RebindKeys
         }
 
 
-        //Help method to make it more general
+        //Вспомогательный метод для большей обобщённости
         private void Move(Vector3 dir)
         {
             transform.Translate(dir * MOVE_STEP_DISTANCE);

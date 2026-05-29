@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace CommandPattern.RebindKeys
 {
-    //The point of this command is to do nothing
-    //Is used instead of setting a command to null, so it's called Null Object, which is another programming pattern 
+    //Смысл этой команды — ничего не делать
+    //Используется вместо установки команды в null, поэтому называется «Null Object» (пустой объект), что является ещё одним паттерном
     public class DoNothingCommand : Command
     {
         public override void Execute()

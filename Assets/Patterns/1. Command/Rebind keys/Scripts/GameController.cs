@@ -4,41 +4,41 @@ using UnityEngine;
 
 namespace CommandPattern.RebindKeys
 {
-    //Command pattern rebind keys example from the book "Game Programming Patterns"
-    //Is also including undo, redo, and replay system
+    //Пример паттерна «Команда» для переназначения клавиш из книги "Шаблоны игрового программирования"
+    //Также включает систему отмены, повтора и воспроизведения (undo, redo, replay)
     public class GameController : MonoBehaviour
     {
         public MoveObject objectThatMoves;
         
-        //The keys we have that are also connected to commands
+        //Клавиши, которые связаны с командами
         private Command buttonW;
         private Command buttonA;
         private Command buttonS;
         private Command buttonD;
 
-        //Store the commands here to make undo, redo, replay easier
-        //The book is using one list and an index
+        //Храним команды здесь, чтобы упростить отмену, повтор и воспроизведение
+        //В книге используется один список и индекс
         //private List<Command> oldCommands = new List<Command>();
-        //Start at -1 because in the beginning we haven't added any commands
+        //Начинаем с -1, потому что в начале мы ещё не добавили ни одной команды
         //private int currentCommandIndex = -1;
-        //But I think its easier to use two Stacks
-        //When replay, we convert the undo stack to an array
+        //Но я думаю, что проще использовать два стека
+        //При воспроизведении мы преобразуем стек отмены в массив
         private Stack<Command> undoCommands = new Stack<Command>();
         private Stack<Command> redoCommands = new Stack<Command>();
 
         private bool isReplaying = false;
 
-        //To make replay work we need to know where the object started
+        //Чтобы воспроизведение работало, нам нужно знать, где объект начал движение
         private Vector3 startPos;
 
-        //The time between each command execution when we replay so we can see what's going on
+        //Время между выполнениями каждой команды при воспроизведении, чтобы мы могли видеть происходящее
         private const float REPLAY_PAUSE_TIMER = 0.5f;
 
 
 
         void Start()
         {
-            //Bind the keys to default commands
+            //Привязываем клавиши к командам по умолчанию
             buttonW = new MoveForwardCommand(objectThatMoves);
             buttonA = new TurnLeftCommand(objectThatMoves);
             buttonS = new MoveBackCommand(objectThatMoves);
@@ -51,16 +51,16 @@ namespace CommandPattern.RebindKeys
 
         void Update()
         {
-            //We can check for input while we are replaying
+            //Можем проверять ввод, пока идёт воспроизведение
             if (isReplaying)
             {
                 return;
             }
             
-            //We will here jump in steps to make the undo system easier
-            //If we were moving with speed * Time.deltaTime, the undo system would be more comlicated to implement.
-            //When we undo, the Time.deltaTime may be different so we end up at another position than we previously had
-            //You could solve this by saving the Time.deltaTime somewhere
+            //Здесь мы будем делать движения пошагово, чтобы упростить систему отмены
+            //Если бы мы двигались со скоростью * Time.deltaTime, систему отмены было бы сложнее реализовать.
+            //При отмене Time.deltaTime может отличаться, поэтому мы окажемся в другой позиции, не той, где были ранее
+            //Эту проблему можно решить, сохраняя где-нибудь Time.deltaTime 
             if (Input.GetKeyDown(KeyCode.W))
             {
                 ExecuteNewCommand(buttonW);
@@ -77,12 +77,12 @@ namespace CommandPattern.RebindKeys
             {
                 ExecuteNewCommand(buttonD);
             }
-            //Undo with u (ctrl + z is sometimes interfering with the editor's undo system)
+            //Отмена с помощью U (ctrl + z иногда конфликтует с системой отмены редактора)
             else if (Input.GetKeyDown(KeyCode.U))
             {
                 if (undoCommands.Count == 0)
                 {
-                    Debug.Log("Can't undo because we are back where we started");
+                    Debug.Log("Нельзя отменить, потому что мы вернулись в начало");
                 }
                 else
                 {
@@ -90,16 +90,16 @@ namespace CommandPattern.RebindKeys
 
                     lastCommand.Undo();
 
-                    //Add this to redo if we want to redo the undo
+                    //Добавляем это в стек повтора, если хотим повторить отмену
                     redoCommands.Push(lastCommand);
                 }
             }
-            //Redo with r
+            //Повтор с помощью R
             else if (Input.GetKeyDown(KeyCode.R))
             {
                 if (redoCommands.Count == 0)
                 {
-                    Debug.Log("Can't redo because we are at the end");
+                    Debug.Log("Нельзя повторить, потому что мы в конце");
                 }
                 else
                 {
@@ -107,21 +107,21 @@ namespace CommandPattern.RebindKeys
 
                     nextCommand.Execute();
 
-                    //Add to undo if we want to undo the redo
+                    //Добавляем в стек отмены, если хотим отменить повтор
                     undoCommands.Push(nextCommand);
                 }
             }
 
 
-            //Rebind keys by just swapping A and D buttons
+            //Переназначение клавиш простой заменой кнопок A и D
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //ref is important or the keys will not be swapped
+                //ref важен, иначе клавиши не будут заменены
                 SwapKeys(ref buttonA, ref buttonD);
             }
 
 
-            //Start replay
+            //Запуск воспроизведения
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 StartCoroutine(Replay());
@@ -132,19 +132,19 @@ namespace CommandPattern.RebindKeys
 
 
 
-        //Replay
+        //Воспроизведение
         private IEnumerator Replay()
         {
-            //Move the object back to where it started
+            //Перемещаем объект обратно в начальную позицию
             objectThatMoves.transform.position = startPos;
 
-            //Pause so we can see that it has started at the start position
+            //Пауза, чтобы мы могли увидеть, что объект начал движение с начальной позиции
             yield return new WaitForSeconds(REPLAY_PAUSE_TIMER);
 
-            //Convert the undo stack to an array
+            //Преобразуем стек отмены в массив
             Command[] oldCommands = undoCommands.ToArray();
             
-            //This array is inverted so we iterate from the back
+            //Этот массив инвертирован, поэтому мы перебираем его с конца
             for (int i = oldCommands.Length - 1; i >= 0; i--)
             {
                 Command currentCommand = oldCommands[i];
@@ -159,21 +159,21 @@ namespace CommandPattern.RebindKeys
 
 
 
-        //Will execute the command and do stuff to the list to make the replay, undo, redo system work
+        //Выполняет команду и управляет списком, чтобы работали системы воспроизведения, отмены и повтора
         private void ExecuteNewCommand(Command commandButton)
         {
             commandButton.Execute();
 
-            //Add the new command to the last position in the list
+            //Добавляем новую команду в последнюю позицию списка
             undoCommands.Push(commandButton);
 
-            //Remove all redo commands because redo is not defined when we have add a new command
+            //Удаляем все команды повтора, потому что при добавлении новой команды повтор не определён
             redoCommands.Clear();
         }
 
 
 
-        //Swap the pointers to two commands
+        //Меняет местами указатели двух команд
         private void SwapKeys(ref Command key1, ref Command key2)
         {
             Command temp = key1;
