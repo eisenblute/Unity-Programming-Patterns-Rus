@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Flyweight
 {
-    //Data that can be shared across all objects
+    //Данные, которые могут быть общими для всех объектов
     public class Data
     {
         private double number1 = 5d;

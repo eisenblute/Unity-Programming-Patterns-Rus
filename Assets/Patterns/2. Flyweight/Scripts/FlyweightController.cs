@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Flyweight
 {
-    //Illustrates the flyweight pattern
-    //Open the profiler and click on Memory to see how much memory is being used
-    //Switch between Heavy and Flyweight to compare and you should see that the difference is several hundred megabytes even though the data in this case is just 20 doubles
+    //Иллюстрирует паттерн «Приспособленец» (Flyweight)
+    //Откройте профилировщик и нажмите на Memory, чтобы увидеть, сколько памяти используется
+    //Переключайтесь между Heavy и Flyweight для сравнения, и вы должны увидеть разницу в несколько сотен мегабайт, хотя данные в данном случае — это всего 20 чисел double
     public class FlyweightController : MonoBehaviour
     {
         private List<Heavy> heavyObjects = new List<Heavy>();
@@ -19,7 +19,7 @@ namespace Flyweight
             int numberOfObjects = 1000000;
 
 
-            //Generate Heavy objects that doesn't share any data
+            //Создаём «тяжёлые» объекты, которые не разделяют данные
             for (int i = 0; i < numberOfObjects; i++)
             {
                 Heavy newHeavy = new Heavy();
@@ -28,9 +28,9 @@ namespace Flyweight
             }
 
 
-            //Generate Flyweight objects
+            //Создаём объекты-приспособленцы
 
-            //Generate the data that's being shared among all objects
+            //Создаём данные, которые будут общими для всех объектов
             //Data data = new Data();
 
             //for (int i = 0; i < numberOfObjects; i++)

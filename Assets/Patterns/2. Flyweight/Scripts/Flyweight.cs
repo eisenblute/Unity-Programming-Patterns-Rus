@@ -6,10 +6,10 @@ namespace Flyweight
 {
     public class Flyweight
     {
-        //Data for each individual object
+        //Данные для каждого отдельного объекта
         private float health;
 
-        //This is the data that's being shared among all objects so you have to inject it in the constructor
+        //Это данные, которые являются общими для всех объектов, поэтому их нужно внедрить через конструктор
         private Data data;
 
 

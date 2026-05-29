@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Flyweight
 {
-    //This class doesn't share any data among all objects
+    //Этот класс не разделяет данные между всеми объектами
     public class Heavy
     {
         private float health;
