@@ -24,10 +24,10 @@ namespace SingletonPattern
 
         private void TestCSharpSingleton()
         {
-            //Is not working because this is a singleton with a private constructor
+            //Не работает, потому что это синглтон с приватным конструктором
             //SingletonCSharp singletonCSharp = new SingletonCSharp();
 
-            //This is working
+            //Это работает
             SingletonCSharp instance = SingletonCSharp.Instance;
 
             instance.TestSingleton();

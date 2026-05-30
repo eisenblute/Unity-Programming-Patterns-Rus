@@ -1,40 +1,39 @@
 using UnityEngine;
 
-//
-// Basic Singleton pattern implementation in Unity
-//
+//-----------------------------------
+// Базовая реализация паттерна «Синглтон» (Одиночка) в Unity
+//-----------------------------------
 
 namespace SingletonPattern
 {
-    //A translation of the most basic Singleton pattern to Unity script which inherits from MonoBehaviour
     public class SingletonUnity : MonoBehaviour
     {
-        //A static variable which holds a reference to the single created instance
+        //Статическая переменная, которая хранит ссылку на единственный созданный экземпляр
         private static SingletonUnity instance = null;
         
-        //For testing that we only call the constructor once
+        //Для проверки того, что конструктор вызывается только один раз
         private float randomNumber;
         
-        //A public static means of getting the reference to the single created instance, creating one if necessary
+        //Способ получения ссылки на единственный созданный экземпляр, при необходимости создающий его.
         public static SingletonUnity Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    // Find singleton of this type in the scene
+                    //Ищем одиночку этого типа в сцене
                     var instance = GameObject.FindObjectOfType<SingletonUnity>();
 
-                    // If there is no singleton object in the scene, we have to add one
+                    //Если в сцене нет объекта-одиночки, мы должны добавить его
                     if (instance == null)
                     {
                         GameObject obj = new GameObject("Unity Singleton");
                         instance = obj.AddComponent<SingletonUnity>();
 
-                        //Init the singleton
+                        //Инициализируем одиночку
                         instance.FakeConstructor();
 
-                        // The singleton object shouldn't be destroyed when we switch between scenes
+                        //Объект-одиночка не должен уничтожаться при переключении между сценами
                         DontDestroyOnLoad(obj);
                     }
                 }
@@ -49,14 +48,14 @@ namespace SingletonPattern
             {
                 instance = this;
 
-                // Init the singleton
+                //Инициализируем одиночку
                 instance.FakeConstructor();
 
-                // The singleton object shouldn't be destroyed when we switch between scenes
+                //Объект-одиночка не должен уничтожаться при переключении между сценами
                 DontDestroyOnLoad(this.gameObject);
             }
-            // because we inherit from MonoBehaviour whem might have accidentally added several of them to the scene,
-            // which will cause trouble, so we have to make sure we have just one!
+            //Поскольку мы наследуем от MonoBehaviour, то можно случайно добавить несколько экземпляров в сцену,
+            //что вызовет проблемы. Поэтому мы должны убедиться, что экземпляр у нас только один!
             else
             {
                 Destroy(gameObject);
@@ -64,7 +63,7 @@ namespace SingletonPattern
         }
 
 
-        //Because this script inherits from MonoBehaviour, we cant use a constructor, so we have to invent our own
+        //Поскольку этот скрипт наследуется от MonoBehaviour, мы не можем использовать конструктор, поэтому приходится изобретать свой
         private void FakeConstructor()
         {
             randomNumber = Random.Range(0f, 1f);
@@ -72,10 +71,10 @@ namespace SingletonPattern
 
 
 
-        //For testing
+        //Для проверки
         public void TestSingleton()
         {
-            Debug.Log($"Hello this is Singleton, my random number is: {randomNumber}");
+            Debug.Log($"Привет, я Одиночка, моё случайное число: {randomNumber}");
         }
     }
 }

@@ -2,26 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//
-// Basic Singleton pattern implementation in C#
-//
+//------------------------------------
+// Базовая реализация паттерна «Синглтон» (Одиночка) на C#
+//------------------------------------
 
 namespace SingletonPattern
 {
-    //This is the most simplest Singleton pattern. The problem is that it's not thread safe. If you want a thread safe Singleton, then visit the link: https://csharpindepth.com/articles/singleton
+    //Это самый простой паттерн Синглтон. 
+    //Проблема в том, что он не потокобезопасен. 
+    //Если вам нужен потокобезопасный Синглтон, смотрите тут: https://csharpindepth.com/articles/singleton
     public class SingletonCSharp
     {
-        //A static variable which holds a reference to the single created instance
+        //Статическая переменная, которая хранит ссылку на единственный созданный экземпляр
         private static SingletonCSharp instance = null;
 
 
 
-        //For testing that we only call the constructor once
+        //Для проверки того, что конструктор вызывается только один раз
         private float randomNumber;
 
 
 
-        //A public static means of getting the reference to the single created instance, creating one if necessary
+        //Способ получения ссылки на единственный созданный экземпляр, при необходимости создающий его.
         public static SingletonCSharp Instance
         {
             get
@@ -37,9 +39,9 @@ namespace SingletonPattern
 
 
 
-        //A single constructor, which is private and parameterless (singletons are not allowed to have parameters)
-        //This prevents other classes from instantiating it and it also prevents subclassing (which both are violating the pattern)
-        //But some argue that you should be able to inherit from singletons...
+        //Единственный конструктор, который является приватным и не принимает параметров (одиночкам не разрешается иметь параметры)
+        //Это предотвращает создание экземпляров другими классами, а также наследование (что нарушает паттерн)
+        //Но некоторые спорят, что от одиночек можно наследовать...
         private SingletonCSharp()
         {
             randomNumber = Random.Range(0f, 1f);
@@ -47,10 +49,10 @@ namespace SingletonPattern
 
 
 
-        //For testing
+        //Для проверки
         public void TestSingleton()
         {
-            Debug.Log($"Hello this is Singleton, my random number is: {randomNumber}");
+            Debug.Log($"Привет, я Синглтон, моё случайное число: {randomNumber}");
         }
     }
 }
