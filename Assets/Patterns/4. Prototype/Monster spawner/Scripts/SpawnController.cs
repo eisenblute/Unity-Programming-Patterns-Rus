@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Prototype.MonsterSpawner
 {
-    //This code should be identical to the Protototype pattern example in the book "Game Programming Patterns" but translated from C++ to C#
-    //But I added a talk method and a counter so we can see it's working
+    //Этот код идентичен примеру паттерна «Прототип» из книги "Шаблоны игрового программирования",
+    //Но я добавил метод разговора (Talk) и счётчик, чтобы мы могли видеть, что код работает
     public class SpawnController : MonoBehaviour
     {
         private Ghost ghostPrototype;
@@ -34,7 +34,7 @@ namespace Prototype.MonsterSpawner
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //If we know which spawner we are using we can easily cast to the correct monster type
+                //Если мы знаем, какой генератор используем, то можно легко привести к нужному типу монстра
                 Spawner ghostSpawner = new Spawner(ghostPrototype);
 
                 Ghost newGhost = ghostSpawner.SpawnMonster() as Ghost;
@@ -49,7 +49,7 @@ namespace Prototype.MonsterSpawner
                 randomMonster.Talk();
 
                 
-                //We can't use Unity's built-in Instantiate method because those objects have to inherit from Object
+                //Мы не можем использовать встроенный метод Instantiate от Unity, потому что эти объекты должны наследовать от Object
                 //Ghost newGhost = Instantiate(ghostPrototype) as Ghost;
             }
         }

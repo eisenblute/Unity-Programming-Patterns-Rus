@@ -26,7 +26,7 @@ namespace Prototype.MonsterSpawner
 
         public override void Talk()
         {
-            Debug.Log($"Hello this is Demon number {demonCounter}. My health is {health} and my speed is {speed}");
+            Debug.Log($"Привет, я демон номер {demonCounter}. Моё здоровье — {health}, а моя скорость — {speed}");
         }
     }
 }
